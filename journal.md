@@ -65,5 +65,7 @@ Success! Below is a diagram of the HA setup topology:
 - Got an overview of all of the Zenarmor features, such as being able to see all of the currently open sessions and being able to block them, easier app/web controls (allowing/blocking them), and getting detailed breakdowns of network activity
 
 ### 2025-11-14
+- After upgrading the network with high-availability and next-gen features, <span style="color:#27ae60;">Mars</span> realized that there was no centralized way to monitor security events across all systems, and alerts were all over the place (Suricata detected scans, Zenarmor blocked application, and OPNsense logged firewall events). So, he decided he needed a SIEM.
 - Deployed **Wazuh Manager OVA**
 - Assigned static IP `192.168.1.10` to the Wazuh WM on LAN segment 1 (connecting it to OPNsense)
+- Installed a Wazuh Agent on <span style="color:#27ae60;">Mars</span>'s Windows VM
