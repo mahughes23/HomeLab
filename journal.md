@@ -69,3 +69,36 @@ Success! Below is a diagram of the HA setup topology:
 - Deployed **Wazuh Manager OVA**
 - Assigned static IP `192.168.1.10` to the Wazuh WM on LAN segment 1 (connecting it to OPNsense)
 - Installed a Wazuh Agent on <span style="color:#27ae60;">Mars</span>'s Windows VM
+
+### 2025-11-20
+- After deploying Wazuh, <span style="color:#27ae60;">Mars</span> realized that Mars Industries needed a proper platform to host security tools. In the future, he planned to expand with threat-response systems like **TheHive**, **Cortex**, and **Caldera**.
+- It was time to add a dedicated Linux environment for running multiple Docker containers
+- <span style="color:#2980b9;">Musya</span> took on her first responsbility and started an Ubuntu server with static IP `192.168.1.253`
+  - Used the Ubuntu server to run Docker containers for:
+    - MISP to store and share threat intelligence
+    - TheHive to act as a central incident-response platform
+    - Cortex to provide automated analysis of suspicious events
+  - Tested connections to containers:
+    - `192.168.1.253` properly redirected to MISP users/login/, but got stuck buffering the page
+      - Ubuntu VM showed Elasticsearch WARN errors about disk watermark thresholds
+      - Fix: Increased VM disk size from 40gb to 60gb
+  - Tested connections to containers again:
+    - `192.168.1.253` properly redirected to MISP login
+    - `192.168.1.253:9000` properly redirected to TheHive login
+    - `192.168.1.253:9001` properly redirected to Cortex login
+  - Success!
+
+### 2025-11-24
+- Added a "Mars Industries" organization on MISP
+  - Added <span style="color:#2980b9;">Musya</span> as an Org Admin
+  - Gave <span style="color:#2980b9;">Musya</span> an Auth Key
+- Issue: Noticed that going to the Cortex URL gave the error "user init not found", couldn't make an account
+- Fix: It's still a fresh install, so I killed the index I found and went back to the home page, and this time it properly offered to update the database
+- Created a "Mars Industries" organization on Cortex
+  - Added <span style="color:#2980b9;">Musya</span> as an Org Admin user
+  - Gave <span style="color:#2980b9;">Musya</span> an API key
+  - Added Cortex and MISP servers on TheHive
+- Added Cortex Analyzers to enhance automated threat analysis for Mars Industries
+  - Added and enabled **VirusTotal** and **MalwareBazaar** with proper API keys
+  - Tested a new analysis on a random malware hash from [here (safe to open)](https://bazaar.abuse.ch/sample/85ce7aef47e18fe2ab48e7fd9eb8bb6843c1d087b4bd07d579ad047cbc995d51/)
+  - Job completed successfully, job report contains information about the malware file
